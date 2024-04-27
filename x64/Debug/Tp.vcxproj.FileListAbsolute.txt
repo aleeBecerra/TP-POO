@@ -1,0 +1,2 @@
+C:\Users\User\Downloads\Trabajo Parcial G2\Tp\x64\Debug\Tp.vcxproj.AssemblyReference.cache
+C:\Users\User\Downloads\Trabajo Parcial G2\Tp\x64\Debug\Tp.exe

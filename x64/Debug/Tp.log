@@ -1,0 +1,8 @@
+﻿  Monigote.cpp
+C:\Users\User\Downloads\Trabajo Parcial G2\Tp\Monigote.cpp(21,13): warning C4244: 'return': conversión de 'int' a 'float'; posible pérdida de datos
+  Tp.cpp
+C:\Users\User\Downloads\Trabajo Parcial G2\Tp\Tp.cpp(54,13): warning C4996: '_sleep': This function or variable has been superceded by newer library or operating system functionality. Consider using Sleep instead. See online help for details.
+  Trebol.cpp
+  Generando código...
+  AssemblyInfo.obj : se encontró un módulo MSIL; vinculación incremental deshabilitada para MSIL; ejecutando vínculo completo
+  Tp.vcxproj -> C:\Users\User\Downloads\Trabajo Parcial G2\Tp\x64\Debug\Tp.exe
