@@ -6,7 +6,8 @@ Monigote::Monigote(int x, float y, int dx, int height, int width, int lives)
 {
 	this->dy = 2;
 	this->lives = lives;
-	this->heartCollected = 0;
+	this->trebolsCollected = 0;
+	this->heartsCollected = 0;
 }
 
 Monigote::~Monigote() {
@@ -29,24 +30,40 @@ void Monigote::setLives(int lives) {
 	this->lives = lives;
 }
 
-void Monigote::setHeartsCollected(int heartCollected) {
-	this->heartCollected = heartCollected;
+void Monigote::setTrebolsCollected(int trebolsCollected) {
+	this->trebolsCollected = trebolsCollected;
+}
+
+void Monigote::setHeartsCollected(int heartsCollected) {
+	this->heartsCollected = heartsCollected;
 }
 
 int Monigote::getLives() {
 	return this->lives;
 }
 
+int Monigote::getTrebolsCollected() {
+	return this->trebolsCollected;
+}
+
 int Monigote::getHeartsCollected() {
-	return this->heartCollected;
+	return this->heartsCollected;
 }
 
 void Monigote::substractLive() {
 	this->lives--;
 }
 
-void Monigote::collectedHearts() {
-	this->heartCollected++;
+void Monigote::addLives() {
+	this->lives++;
+}
+
+void Monigote::collectedTrebols() {
+	this->trebolsCollected++;
+}
+
+void Monigote::collectedsHearts() {
+	this->heartsCollected++;
 }
 
 void Monigote::erase() {

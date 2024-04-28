@@ -2,6 +2,8 @@
 #include "Entity.h"
 #include "Murcielago.h"
 #include "Monigote.h"
+#include "Heart.h"
+#include "Trebol.h"
 #include <iostream>
 #include <conio.h>
 #include <ctime>
@@ -16,6 +18,8 @@ private:
 	Monigote* monigote;
 	Murcielago* murcielago;
 	vector<Entity*> entities;
+	vector<Heart> hearts;
+	vector<Trebol> trebol;
 
 	time_t timeT;
 
@@ -25,7 +29,7 @@ public:
 
 	void addEntities();
 	void deleteEntities();
-
+	void shoot();
 	void eraseEntities();
 	void moveEntities();
 	void drawEntities();

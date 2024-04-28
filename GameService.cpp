@@ -3,7 +3,7 @@
 #include "Heart.h"
 
 GameService::GameService() {
-	monigote = new Monigote(2, 15, 3, 4, 8, 4);
+	monigote = new Monigote(2, 15, 3, 4, 8, 2);
 	timeT = time(0);
 	srand(time(NULL));
 }
@@ -26,7 +26,7 @@ void GameService::deleteEntities() {
 void GameService::addEntities() {
 	int murcielagoCount = 1;
 	int heartsCount = 0;
-
+	int trebolCount = 0;
 	time_t lastEnemySpawnTime = 0;
 	time_t lastTreasuredSpawnTime = 0;
 
@@ -36,6 +36,9 @@ void GameService::addEntities() {
 		}
 		else if (dynamic_cast<Heart*>(entity)) {
 			heartsCount++;
+		}
+		else if (dynamic_cast<Trebol*>(entity)) {
+			trebolCount++;
 		}
 	}
 
@@ -55,19 +58,7 @@ void GameService::addEntities() {
 		}
 	}
 
-	if (heartsCount < 3) {
-		time_t currentTime = time(0);
-		if (currentTime - lastTreasuredSpawnTime >= 5) {
-			int x = rand() % (Console::WindowWidth - 1) + 1;
-			float y = rand() % (Console::WindowHeight - 1) + 1;
-			int height = 1;
-			int width = 1;
-
-			entities.push_back(new Heart(x, y, width, height));
-			heartsCount++;
-			lastTreasuredSpawnTime = currentTime;
-		}
-	}
+	
 
 
 }
@@ -76,60 +67,70 @@ void GameService::addEntities() {
 void GameService::resetGame() {
 	// Reiniciar las vidas, tesoros recogidos, y otras variables del juego
 	monigote->setLives(3);
-	monigote->setHeartsCollected(0);
+	monigote->setTrebolsCollected(0);
 
 	deleteEntities();
 
 	addEntities();
 }
 
-// Finalizar el juego por completo
-void GameService::endGame() {
-	Console::ForegroundColor = ConsoleColor::Cyan;
-	system("cls");
-	Console::SetCursorPosition(42, 12);
-	cout << "--HAS GANADO EL JUEGO--";
-	Console::SetCursorPosition(41, 14);
-	cout << "Presiona una tecla para salir...";
-	_getch();
 
-}
 
 
 void GameService::checkGameResult() {
-	if (monigote->getHeartsCollected() == 3 /*por ejemplo*/) {
-		// El jugador ha recogido todos los tesoros requeridos para ganar el nivel actual
-		Console::ForegroundColor = ConsoleColor::Green;
-		system("cls");
-		Console::SetCursorPosition(45, 12);
-		cout << "--GANASTE EL NIVEL--";
-		Console::SetCursorPosition(41, 14);
-		cout << "Presiona una tecla para continuar...";
-		_getch();
-		system("cls");
-
-	}
+	
 
 	if (monigote->getLives() == 0) {
 		// El jugador ha perdido todas sus vidas
 		Console::ForegroundColor = ConsoleColor::Red;
 		system("cls");
 		Console::SetCursorPosition(38, 12);
-		cout << "--TERMINO EL JUEGO--";
-		Console::SetCursorPosition(41, 14);
+		cout << "--TERMINO EL JUEGO--"<<endl;
+		Console::SetCursorPosition(38, 20);
+		Console::SetCursorPosition(20, 15);
+		cout << "Corazones capturados: " << monigote->getHeartsCollected() << endl;
+		Console::SetCursorPosition(20, 16);
+		cout << "Treboles colisionados: " << monigote->getTrebolsCollected()<<endl;
+		Console::SetCursorPosition(20, 17);
 		cout << "Presiona una tecla para salir...";
 		_getch();
 
 	}
 }
 
-void GameService::eraseEntities() {
-	monigote->erase();
-
-	for (Entity* entity : entities) {
-		entity->erase();
+void GameService::shoot() {
+	if (rand() % 100 < 5) { // Probabilidad del 20% de lanzar un corazón
+		for (Entity* entity : entities) {
+			if (dynamic_cast<Murcielago*>(entity)) {
+				Murcielago* murcielago = dynamic_cast<Murcielago*>(entity);
+				int x = murcielago->getX(); // Obtener la posición X del murciélago
+				int y = murcielago->getY(); // Lanzar desde la posición del murciélago
+				entities.push_back(new Heart(x, y, 1, 1));
+				break; // Solo lanzar un corazón por ciclo
+			}
+		}
+	}
+	if (rand() % 100 < 5) { // Probabilidad del 20% de lanzar un trebol
+		for (Entity* entity : entities) {
+			if (dynamic_cast<Murcielago*>(entity)) {
+				Murcielago* murcielago = dynamic_cast<Murcielago*>(entity);
+				int x = murcielago->getX(); // Obtener la posición X del murciélago
+				int y = murcielago->getY(); // Lanzar desde la posición del murciélagp
+				entities.push_back(new Trebol(x, y, 1, 1));
+				break; // Solo lanzar un corazón por ciclo
+			}
+		}
 	}
 
+}
+
+void GameService::eraseEntities() {
+	monigote->erase();
+	for (Entity* entity : entities) {
+		entity->erase();
+		
+	}
+	
 }
 
 void GameService::moveEntities() {
@@ -137,7 +138,14 @@ void GameService::moveEntities() {
 		if (dynamic_cast<Murcielago*>(entity)) {
 			dynamic_cast<Murcielago*>(entity)->move();
 		}
+		if (dynamic_cast <Heart*>(entity)) {
+			dynamic_cast<Heart*>(entity)->move();
+		}
+		if (dynamic_cast <Trebol*>(entity)) {
+			dynamic_cast<Trebol*>(entity)->move();
+		}
 	}
+	
 }
 
 void GameService::drawEntities() {
@@ -147,8 +155,6 @@ void GameService::drawEntities() {
 	Console::SetCursorPosition(109, 2);
 	cout << "Vidas: " << monigote->getLives();
 	Console::SetCursorPosition(106, 3);
-	cout << "Corazones: " << monigote->getHeartsCollected();
-	Console::SetCursorPosition(109, 4);
 
 	monigote->draw();
 
@@ -163,7 +169,7 @@ void GameService::detectCollisions() {
 		if (monigote->getRectangle().IntersectsWith(entity->getRectangle())) {
 			Murcielago* murcielago = dynamic_cast<Murcielago*>(entity);
 			Heart* heart = dynamic_cast<Heart*>(entity);
-
+			Trebol* trebol = dynamic_cast <Trebol*> (entity);
 			if (murcielago) {
 				monigote->substractLive();
 
@@ -183,11 +189,21 @@ void GameService::detectCollisions() {
 				}
 			}
 			else if (heart) {
-				monigote->collectedHearts();
+				monigote->substractLive();
+				monigote->collectedsHearts();
 				heart->erase();
 				entities.erase(remove(entities.begin(), entities.end(), entity), entities.end());
 				delete entity;
 			}
+			else if (trebol) {
+				monigote->addLives();
+				monigote->collectedTrebols();
+				trebol->erase();
+				entities.erase(remove(entities.begin(), entities.end(), entity), entities.end());
+				delete entity;
+			}
+		
+			
 
 		}
 

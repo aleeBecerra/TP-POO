@@ -38,6 +38,7 @@ int main()
 
         while (true) {
             gameService->eraseEntities();
+            gameService->shoot();
             gameService->detectCollisions();
             gameService->addEntities();
             gameService->checkGameResult();

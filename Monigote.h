@@ -5,7 +5,8 @@ class Monigote : public Entity
 {
 private:
 	int lives;
-	int heartCollected;
+	int trebolsCollected;
+	int heartsCollected;
 public:
 	Monigote(int x, float y, int dx, int height, int width, int lives);
 	~Monigote();
@@ -14,11 +15,15 @@ public:
 	float getX();
 	void setX(int x);
 	int getLives();
+	int getTrebolsCollected();
 	int getHeartsCollected();
 	void setLives(int lives);
-	void setHeartsCollected(int heartCollected);
+	void setTrebolsCollected(int trebolCollected);
+	void setHeartsCollected(int heartsCollected);
+	void addLives();
 	void substractLive();
-	void collectedHearts();
+	void collectedTrebols();
+	void collectedsHearts();
 	void erase() override;
 	void move(char key);
 	void draw() override;

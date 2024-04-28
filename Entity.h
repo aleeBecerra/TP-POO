@@ -19,7 +19,7 @@ protected:
 public:
 	Entity(int x, float y, int dx, int height, int width);
 	~Entity();
-
+	float getY();
 	virtual void erase() = 0;
 	virtual void draw() = 0;
 

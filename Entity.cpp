@@ -12,7 +12,9 @@ Entity::Entity(int x, float y, int dx, int height, int width) {
 Entity::~Entity() {
 
 }
-
+float Entity::getY() {
+	return this->y = y;
+}
 Rectangle Entity::getRectangle() {
 	return Rectangle(x, y, width, height);
 }

@@ -11,6 +11,24 @@ Murcielago::Murcielago(int x, float y, int dx, int height, int width)
 Murcielago::~Murcielago() {
 
 }
+int Murcielago::getX() {
+	return x;
+}
+int Murcielago::getY() {
+	return y;
+}
+int Murcielago::getWidth() {
+	return x + width * 0.05;
+}
+int Murcielago::getHeight() {
+	return y + height * 0.05;
+}
+
+char Murcielago::getDirection() {
+	return this->direction;
+
+}
+
 
 void Murcielago::erase() {
 	Console::SetCursorPosition(x, int(y)); cout << "                 ";
@@ -23,6 +41,7 @@ void Murcielago::erase() {
 void Murcielago::move() {
 	if (x < Console::WindowLeft+1  || x + width > Console::WindowWidth*0.7) {
 		dx *= -1;
+		direction == 80;
 	}
 	x += dx;
 }
